@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ storage: storage })
+const upload = multer({storage:storage })
 
 
 //creating upload endpoint for img
@@ -85,9 +85,11 @@ const Product = mongoose.model("Product", {
 })
 
 app.post('/addproduct', async (req, res) => {
+
     let products = await Product.find({});
     let id;
-    if (products.length > 0) {
+    if (products.length > 0)
+     {
         let last_product_array = products.slice(-1);
         let last_product = last_product_array[0];
         id = last_product.id + 1
@@ -258,7 +260,7 @@ const fetchUser = async (req, res, next) => {
 //create endpiont for adding products in cartdata
 app.post('/addtocart', fetchUser, async (req, res) => {
     console.log("Added", req.body.itemId);
-    let userData = await Users.findOne({ _id: req.user.id });
+    let userData = await Users.findOne({_id:req.user.id });
     userData.cartData[req.body.itemId] += 1;
     await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData })
     res.send("Added")
